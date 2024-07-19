@@ -24,6 +24,45 @@ API для проекта Yatube - это решение готовое к вз�
 ```
 git clone git@github.com:Invoker9999/api_final_yatube.git
 ```
+<<<<<<< HEAD
+=======
+
+```
+cd api_final_yatube/
+```
+Cоздать и активировать виртуальное окружение:
+```
+python -m venv env
+```
+- в командной строке bash:
+```
+source venv/Script/activate
+```
+- в командной строке powershell:
+```
+. venv/Script/activate
+```
+Установить зависимости из файла requirements.txt:
+```
+pip install -r requirements.txt
+```
+При необходимости обновить pip:
+```
+python -m pip install --upgrade pip
+```
+Выполнить миграции:
+```
+python manage.py migrate
+```
+Запустить проект:
+```
+python manage.py runserver
+```
+Документация к API проекта Yatube находится на эндпоинте ReDoc:
+```
+http://127.0.0.1:8000/redoc/
+```
+>>>>>>> b3825bc8b3329b12f4e7735741f3588b9160ac84
 
 ```
 cd api_final_yatube/
