@@ -18,7 +18,6 @@ class Group(models.Model):
     class Meta:
         verbose_name = 'группа'
         verbose_name_plural = 'Группы'
-        related_name = 'groups'
         ordering = ('id',)
 
     def __str__(self):
@@ -44,7 +43,6 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
-        related_name = 'posts'
         ordering = (
             'group',
             'pub_date',
@@ -68,7 +66,6 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
-        related_name = 'comments'
         ordering = ('created',)
 
     def __str__(self):
