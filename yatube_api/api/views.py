@@ -1,9 +1,9 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import (
     filters,
     mixins,
     viewsets,
 )
+from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
@@ -52,18 +52,17 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     """Показывает и редактирует комментарии."""
 
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (
         IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly,
     )
 
-    def get_post(self):
+    def _get_post_or_404(self):
         return get_object_or_404(Post, id=self.kwargs.get('post_id'))
 
     def get_queryset(self):
-        return self.get_post().comments.all()
+        return self._get_post_or_404().comments.all()
 
     def perform_create(self, serializer):
         serializer.save(

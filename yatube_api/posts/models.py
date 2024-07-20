@@ -1,23 +1,32 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-MAXIMUM_STRING_LENGTH = 256
-
-NUMBER_OF_VISIBLE_CHARACTERS = 15
+from posts.constants import (
+    MAXIMUM_STRING_LENGTH,
+    NUMBER_OF_VISIBLE_CHARACTERS
+)
 
 User = get_user_model()
 
 
 class Group(models.Model):
+    """Группа"""
     title = models.CharField(max_length=MAXIMUM_STRING_LENGTH)
     slug = models.SlugField(unique=True)
     description = models.TextField()
+
+    class Meta:
+        verbose_name = 'группа'
+        verbose_name_plural = 'Группы'
+        related_name = 'groups'
+        ordering = ('id',)
 
     def __str__(self):
         return self.title[:NUMBER_OF_VISIBLE_CHARACTERS]
 
 
 class Post(models.Model):
+    """Публикация"""
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
@@ -33,6 +42,9 @@ class Post(models.Model):
     )
 
     class Meta:
+        verbose_name = 'публикация'
+        verbose_name_plural = 'Публикации'
+        related_name = 'posts'
         ordering = (
             'group',
             'pub_date',
@@ -44,6 +56,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Комментарий"""
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(
@@ -52,11 +65,18 @@ class Comment(models.Model):
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
 
+    class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'Комментарии'
+        related_name = 'comments'
+        ordering = ('created',)
+
     def __str__(self):
         return self.text[:NUMBER_OF_VISIBLE_CHARACTERS]
 
 
 class Follow(models.Model):
+    """Подписка"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -75,6 +95,9 @@ class Follow(models.Model):
                 name='unique_subscriber_author_pair'
             )
         ]
+        verbose_name = 'подписка'
+        verbose_name_plural = 'Подписки'
+        ordering = ('id',)
 
     def __str__(self):
         return f'follower:{self.user}, following:{self.following}'
